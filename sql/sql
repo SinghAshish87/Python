@@ -1,0 +1,49 @@
+use ashish
+
+create table employees(
+id int primary key,
+name varchar(50),
+salary int,
+department varchar(50))
+
+
+
+insert into employees
+values
+(1,"Raj",56000,"IT"),
+(2,"Rajesh",66000,"HR"),
+(3,"Rakesh",26000,"sale"),
+(4,"Raju",69000,"Marketting"),
+(5,"Ramesh",66000,"HR")
+
+
+select * from employees
+
+
+
+create table recycle(
+id int primary key,
+name varchar(50),
+salary int,
+department varchar(50),
+deletedat timestamp default current_timestamp)
+
+
+delimiter //
+create trigger delete_data
+after delete
+on employees
+for each row
+begin
+insert into recycle(id,name,salary,department)
+values
+(old.id,old.name,old.salary,old.department);
+end //
+
+delimiter ;
+
+delete from employees
+where id = 4
+
+
+select * from recycle
